@@ -1,0 +1,25 @@
+
+
+
+Create User
+Login User
+Logout User
+
+Create Poll
+Get Poll
+Get Polls
+Answer Poll
+Star Poll
+Un-Star Poll
+Promote Poll
+Search Polls
+
+Login Procedure 
+
+- show content, then ask for auth
+
+			OR
+
+- ask for auth immedietely
+
+
