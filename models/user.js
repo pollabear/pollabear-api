@@ -19,8 +19,8 @@ var User = new Schema({
     // pollabear: {
     //     // info regarding dressing up bear goes here
     // }
-    pollaPoints: { type: Number, default: 0 },
-    pollasTaken: { type: Number, default: 0 },
+    pollPoints: { type: Number, default: 0 },
+    pollsTaken: { type: Number, default: 0 },
     demographics: {
     	gender: Number,
     	age: Number,
@@ -33,7 +33,7 @@ var User = new Schema({
     	relationship: Number,
     	residence: Number
     },
-    pollas: [{ type: Schema.Types.ObjectId, ref: 'Poll' }],
+    polls: [{ type: Schema.Types.ObjectId, ref: 'Poll' }],
     tracked: [{ type: Schema.Types.ObjectId, ref: 'Poll' }],
     created: { type: Date, default: Date.now }
 });

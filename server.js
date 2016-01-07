@@ -10,6 +10,7 @@ var config = require('./config');
 
 // Routing
 var authAPIRoutes = require('./routes/auth').router;
+var pollAPIRoutes = require('./routes/poll');
 
 var app = express();
 
@@ -23,17 +24,22 @@ app.use(express.static(path.join(__dirname, 'public')));
 //---------------------------------------------------------------------------------
 
 app.use('/api/v1.0/auth', authAPIRoutes);
-// app.use('/api/v1.0/auth', authAPIRoutes);
-// app.use('/api/v1.0/auth', authAPIRoutes);
+app.use('/api/v1.0/poll', pollAPIRoutes);
 
 //---------------------------------------------------------------------------------
 //                             Connect to MongoDB
 //---------------------------------------------------------------------------------
 
 mongoose.connect(config.MONGO_URI);
+
 mongoose.connection.on('open', function() {
-    console.log("Connected to Mongoose...");
+  console.log("Connected to Mongoose...");
    
+});
+
+mongoose.connection.on("error", function(err) {
+  console.log("Could not connect to mongo server!");
+  console.log(err);
 });
 
 //---------------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 module.exports = {
   TOKEN_SECRET: process.env.TOKEN_SECRET || 'JWTTokenSecret',
-  MONGO_URI: process.env.MONGO_URI || 'mongodb://jpkramer:)boe)boe@ds063833.mongolab.com:63833/pollabear',
+  MONGO_URI: process.env.MONGO_URI || 'mongodb://pollaking:choosewisely@ds039195.mongolab.com:39195/pollabear',
 
   // OAuth 2.0
   FACEBOOK_SECRET: process.env.FACEBOOK_SECRET || 'e699c729e391b7403a4427c2ca23b6bd',
