@@ -1,64 +1,50 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+var Sequelize = require('sequelize');
+var sequelize = require('../sequelize');
 var bcrypt = require('bcryptjs');
 
-var User = new Schema({
+var User = sequelize.define('user',{
+    //With timestamps set to true, createdAt,updatedAt are automatically created and updated
+    userId: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
     email: {
-        type:String,
-        required: true
+	type: Sequelize.STRING,
+	required: true, unique: true,
+	validate: {
+	    isEmail: true
+	}
     },
-    username: String,
-    password: { 
-        type: String, 
-        required: true, 
-        select: false 
+    username: {type: Sequelize.STRING},
+    password: {type: Sequelize.STRING,required: true},
+    facebook: {type: Sequelize.STRING},
+    twitter: {type: Sequelize.STRING},
+    google: {type: Sequelize.STRING},
+    pollPoints: {type: Sequelize.INTEGER,defaultValue: 0},
+    pollsTaken: {type: Sequelize.INTEGER,defaultValue: 0},
+    gender: {
+	type: Sequelize.INTEGER,
+	references: {
+	    model: 'sexes',
+	    key: 'id'
+	}
+    }/*,
+    age: {
+	type: Sequelize.INTEGER,
+	references: {
+	    model: 'ages',
+	    key: 'ageId'
+	}
     },
-    facebook: String,
-    twitter: String,
-    google: String,
-    // pollabear: {
-    //     // info regarding dressing up bear goes here
-    // }
-    pollPoints: { type: Number, default: 0 },
-    pollsTaken: { type: Number, default: 0 },
-    demographics: {
-    	gender: Number,
-    	age: Number,
-    	sexual_orientation: Number,
-    	political_affiliation: Number,
-    	education: Number,
-    	religion: Number,
-    	employment: Number,
-    	ethnicity: Number,
-    	relationship: Number,
-    	residence: Number
-    },
-    polls: [{ type: Schema.Types.ObjectId, ref: 'Poll' }],
-    tracked: [{ type: Schema.Types.ObjectId, ref: 'Poll' }],
-    created: { type: Date, default: Date.now }
+    relationship: {
+	type: Sequelize.INTEGER,
+	references: {
+	    model: 'relationships',
+	    key: 'relationshipId'
+	}
+    }*/
+},{
+    timestamps: true
 });
 
-
-User.pre('save', function(next) {
-  var user = this;
-  if (!user.isModified('password')) {
-    return next();
-  }
-  bcrypt.genSalt(10, function(err, salt) {
-    bcrypt.hash(user.password, salt, function(err, hash) {
-      user.password = hash;
-      next();
-    });
-  });
-});
-
-User.methods.comparePassword = function(password, done) {
-  bcrypt.compare(password, this.password, function(err, isMatch) {
-    done(err, isMatch);
-  });
-};
-
-module.exports = mongoose.model('User', User);
+module.exports = User;
 
 
 /*

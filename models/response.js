@@ -1,3 +1,5 @@
+
+/*
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
@@ -12,3 +14,4 @@ var Response = mongoose.model('Response', new Schema({
 }));
 
 module.exports = Response;
+*/

@@ -1,32 +1,37 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var Choice = require('./choice');
+var Sequelize = require('sequelize');
+var sequelize = require('../sequelize');
 
-var Poll = mongoose.model('Poll', new Schema({
-    creator_id: { type: Schema.Types.ObjectId, ref: 'User' },
-    text: String,
-    choices: [Choice],
-    votes: { type: Number, default: 0 },
-    category: Number,
-    tags: { type: [String], index: true }, // field level
-    reported: { type: Number, default: 0 },
-    choiceType: String,
+var Poll = sequelize.define('poll',{
+    pollId: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
+    title: {type: Sequelize.TEXT},
+    voteCount: {type: Sequelize.INTEGER, defaultValue:0},
+    creator: {
+	type: Sequelize.INTEGER,
+	references: {
+	    model: 'users',
+	    key: 'userId'
+	}
+    },
+    category: {
+	type: Sequelize.INTEGER,
+	references:{
+	    model: 'categories',
+	    key: 'categoryId'
+	}
+    },
+    access: {
+	type: Sequelize.INTEGER,
+	references:{
+	    model: 'access',
+	    key: 'accessId'
+	},
+	defaultValue: 0
+    }
+    
+},{
+    timestamps: true
+});
 
-    // privacy: type: Number,
-    // authenticated: array of user ids
-
-    // Comments?
-
-    // Location?
-
-    // Response buckets
-
-    created: { type: Date, default: Date.now },
-    meta: {
-    	image_url: String,
-    	link: String
-  	}
-}));
 
 module.exports = Poll;
 

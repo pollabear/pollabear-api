@@ -1,30 +1,19 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+var Sequelize = require('sequelize');
+var sequelize = require('../sequelize');
 
-var Choice = new Schema({ 
-	text: String,
-    votes: { type: Number, default: 0 },
-	demographicData: {
-        
-	// 	sex: {
-
-	// 	}
-	// 	age: {
-
-	// 	}
-	// 	sexual_orientation
-	// 	political_affiliation
-	// 	education
-	// 	religion
-	// 	employment
-	// 	ethnicity 
-	// 	relationship 
-	// 	residence
-	},
-	meta: {
-    	image_url: String,
-    	link: String
-  	}
+var Choice = sequelize.define('choice',{
+    choiceId: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
+    pollId: {
+	type: Sequelize.INTEGER,
+	references:{
+	    model: 'polls',
+	    key: 'pollId'
+	}
+    },
+    voteCount: {type: Sequelize.INTEGER, defaultValue:0},
+    choiceText: {type: Sequelize.TEXT}
+},{
+    timestamps: false
 });
 
 module.exports = Choice;

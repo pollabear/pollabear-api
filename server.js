@@ -1,7 +1,7 @@
 // Libraries
 var express = require('express');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
+var sequelize = require('mongoose');
 var http = require('http');
 var path = require('path');
 
@@ -17,7 +17,7 @@ var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(express.static(path.join(__dirname, 'public')));
+
 
 //---------------------------------------------------------------------------------
 //                             Add API Routes
@@ -27,20 +27,10 @@ app.use('/api/v1.0/auth', authAPIRoutes);
 app.use('/api/v1.0/poll', pollAPIRoutes);
 
 //---------------------------------------------------------------------------------
-//                             Connect to MongoDB
+//                             Connect to Postgres
 //---------------------------------------------------------------------------------
 
-mongoose.connect(config.MONGO_URI);
 
-mongoose.connection.on('open', function() {
-  console.log("Connected to Mongoose...");
-   
-});
-
-mongoose.connection.on("error", function(err) {
-  console.log("Could not connect to mongo server!");
-  console.log(err);
-});
 
 //---------------------------------------------------------------------------------
 //                             Server Boilerplate

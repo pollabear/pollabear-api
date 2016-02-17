@@ -16,7 +16,7 @@ var moment = require('moment');
 var qs = require('querystring');
 var request = require('request');
 var config = require('../config');
-
+var bcrypt = require('bcrypt');
 var User = require('../models/user');
 
 /*
@@ -95,18 +95,24 @@ router.put('/me', ensureAuthenticated, function(req, res) {
  |--------------------------------------------------------------------------
  */
 router.post('/login', function(req, res) {
-  User.findOne({ email: req.body.email }, '+password', function(err, user) {
-    if (!user) {
-      return res.status(401).send({ message: 'Wrong email and/or password' });
-    }
-    // console.log(user);
-    user.comparePassword(req.body.password, function(err, isMatch) {
-      if (!isMatch) {
-        return res.status(401).send({ message: 'Wrong email and/or password' });
-      }
-      res.send({ token: createJWT(user) });
+    User.findAll({
+	limit: 1,
+	where: {
+	    email: req.body.email,
+	}
+    }).then(function(user){
+	if(!user){
+	    return res.status(401).send({ message: 'Wrong email and/or password' });
+	}
+	bcrypt.compare(user.password,hash,function(err,result){
+	    if(result){
+		res.send({token: createJWT(user)});
+	    }
+	    else{
+		return res.status(401).send({ message: 'Wrong email and/or password' });
+	    }
+	})
     });
-  });
 });
 
 /*
@@ -115,6 +121,9 @@ router.post('/login', function(req, res) {
  |--------------------------------------------------------------------------
  */
 router.post('/signup', function(req, res) {
+    User.create({
+	email: req.body.email
+    });
   // check email and password
   if (!validator.isEmail(req.body.email)) {
     return res.status(401).send({ message: 'Invalid email' });
