@@ -208,10 +208,23 @@ router.get('/test',function(req,res){
 });
 
 router.get('/reset',function(req,res){
-    //User.sync({force:true});
-    //Vote.sync({force:true});
-    //Poll.sync({force:true});
-    //Choice.sync({force:true});
+    Sex.sync({force:true}).then(function(){
+	User.sync({force:true});
+    }).then(function(){
+	Category.sync({force:true});
+    }).then(function(){
+	Access.sync({force:true});
+    }).then(function(){
+	Poll.sync({force:true});
+    }).then(function(){
+	Choice.sync({force:true});
+    }).then(function(){
+	Vote.sync({force:true});
+    });
+    
+    
+    
+    
     res.sendStatus(200);
 });
 

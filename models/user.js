@@ -1,6 +1,6 @@
 var Sequelize = require('sequelize');
 var sequelize = require('../sequelize');
-var bcrypt = require('bcryptjs');
+//var bcrypt = require('bcryptjs');
 
 var User = sequelize.define('user',{
     //With timestamps set to true, createdAt,updatedAt are automatically created and updated
