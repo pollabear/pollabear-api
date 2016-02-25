@@ -209,12 +209,12 @@ router.get('/test',function(req,res){
 
 router.get('/reset',function(req,res){
     Sex.sync({force:true})
-	.then.User.sync({force:true})
-	.then.Category.sync({force:true})
-	.then.Access.sync({force:true})
-	.then.Poll.sync({force:true})
-	.then.Choice.sync({force:true})
-	.then.Vote.sync({force:true});
+	.then(User.sync({force:true}))
+	.then(Category.sync({force:true})
+	      .then(Access.sync({force:true})
+		    .then(Poll.sync({force:true})
+			   .then(Choice.sync({force:true})
+				 .then(Vote.sync({force:true}))))));
     res.sendStatus(200);
 });
 
