@@ -209,22 +209,25 @@ router.get('/test',function(req,res){
 
 router.get('/reset',function(req,res){
     Sex.sync({force:true}).then(function(){
+	console.log("reseting user");
 	User.sync({force:true});
+	console.log("reset user");
     }).then(function(){
+	console.log("reseting category");
 	Category.sync({force:true});
     }).then(function(){
+	console.log("reseting access");
 	Access.sync({force:true});
     }).then(function(){
+	console.log("reseting poll");
 	Poll.sync({force:true});
     }).then(function(){
+	console.log("reseting choice");
 	Choice.sync({force:true});
     }).then(function(){
+	console.log("reseting vote");
 	Vote.sync({force:true});
-    });
-    
-    
-    
-    
+    });  
     res.sendStatus(200);
 });
 
