@@ -208,13 +208,20 @@ router.get('/test',function(req,res){
 });
 
 router.get('/reset',function(req,res){
-    Sex.sync({force:true})
-	.then(User.sync({force:true})
-	      .then(Category.sync({force:true})
-		    .then(Access.sync({force:true})
-			  .then(Poll.sync({force:true})
-				.then(Choice.sync({force:true})
-				      .then(Vote.sync({force:true})))))));
+    Sex.sync({force:true}).then(function (){
+	User.sync({force:true}).then(function(){
+	    Category.sync({force:true}).then(function(){
+		Access.sync({force:true}).then(function(){
+		    Poll.sync({force:true}).then(function(){
+			Choice.sync({force:true}).then(function(){
+			    Vote.sync({force:true});
+			});
+		    });
+		});
+	    });
+	});
+    });
+
     res.sendStatus(200);
 });
 
